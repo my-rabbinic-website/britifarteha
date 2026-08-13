@@ -7,7 +7,7 @@
     <meta name="google-site-verification" content="cm8d_DCwtIbzViB0Aos14jc2TJzLiWT1aMGyUKQjQDU" />
     
     <!-- קידום אתרים (SEO) -->
-    <title>ברית תפארתך | מדריך מקיף והלכות</title>
+    <title>ברית תפארתך | ספרון מדריך מקיף והלכות</title>
     <meta name="description" content="קונטרס ברית תפארתך - ליקוט תמציתי ומקיף המלווה את אבי הבן ביומו הגדול בשפה ברורה. המהדורה החדשה!">
     <meta name="keywords" content="ברית תפארתך, ספר, הדרכה לאבי הבן">
     <meta name="author" content="ברית תפארתך">
@@ -40,7 +40,7 @@
                             500: '#b0813f',  // חום-זהב (טקסטים וגבולות)
                             700: '#5c4018',  // חום כהה
                             800: '#402a0e',  // חום עמוק
-                            900: '#261806',  // חום-שחור (מחליף את הכחול הכהה)
+                            900: '#261806',  // חום-שחור
                             gold: '#c09440',
                             goldLight: '#e8d09f',
                             goldDark: '#8c6622'
@@ -112,21 +112,22 @@
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(223, 179, 107, 0.4);
-            box-shadow: 0 15px 35px -10px rgba(92, 64, 24, 0.15);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 25px 50px -12px rgba(92, 64, 24, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
         
         /* מחלקה לאנימציות בגלילה */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+            transform: translateY(40px) scale(0.98);
+            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .reveal.active {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .faq-answer {
@@ -142,9 +143,27 @@
         .faq-item.active .faq-icon {
             transform: rotate(180deg);
         }
+        
+        /* עיצוב פס גלילה מותאם אישית (Scrollbar) */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fdf8f0; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dfb36b; 
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b0813f; 
+        }
     </style>
 </head>
 <body class="bg-brand-50 text-gray-800 antialiased font-sans selection:bg-brand-300 selection:text-brand-900 overflow-x-hidden">
+
+    <!-- פס התקדמות קריאה -->
+    <div id="scroll-progress" class="fixed top-0 left-0 w-0 h-1.5 bg-gradient-to-r from-brand-300 via-brand-gold to-brand-500 z-[100] transition-all duration-150 ease-out shadow-[0_0_10px_rgba(192,148,64,0.5)]"></div>
 
     <header class="bg-[#fcf8f2]/95 backdrop-blur-md shadow-[0_2px_15px_rgba(92,64,24,0.05)] sticky top-0 z-50 transition-all duration-300 border-b border-brand-200" id="header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 lg:py-4 flex justify-between items-center">
@@ -156,6 +175,8 @@
             <nav class="hidden md:flex space-x-8 space-x-reverse items-center" aria-label="תפריט ראשי">
                 <a href="#about" class="text-brand-800 hover:text-brand-gold font-semibold transition duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-brand-gold after:transition-all hover:after:w-full">על הספר</a>
                 <a href="#features" class="text-brand-800 hover:text-brand-gold font-semibold transition duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-brand-gold after:transition-all hover:after:w-full">התוכן</a>
+                <a href="#gallery" class="text-brand-800 hover:text-brand-gold font-semibold transition duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-brand-gold after:transition-all hover:after:w-full">הצצה לספר</a>
+                <a href="#testimonials" class="text-brand-800 hover:text-brand-gold font-semibold transition duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-brand-gold after:transition-all hover:after:w-full">המלצות</a>
                 <a href="#faq" class="text-brand-800 hover:text-brand-gold font-semibold transition duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-brand-gold after:transition-all hover:after:w-full">מידע נוסף</a>
                 <a href="#purchase" class="bg-brand-900 hover:bg-brand-700 text-brand-50 font-bold py-2.5 px-6 rounded-xl transition duration-300 shadow-md border border-brand-800 hover:shadow-[0_0_15px_rgba(92,64,24,0.3)]">
                     הזמן עכשיו
@@ -167,96 +188,81 @@
             </button>
         </div>
 
-        <div class="md:hidden hidden bg-[#fcf8f2] border-t border-brand-200 absolute w-full shadow-xl" id="mobile-menu">
-            <div class="px-4 pt-2 pb-4 space-y-1 flex flex-col">
-                <a href="#about" class="block px-3 py-3 text-base font-medium text-brand-800 hover:bg-brand-100 rounded-md">על הספר</a>
-                <a href="#features" class="block px-3 py-3 text-base font-medium text-brand-800 hover:bg-brand-100 rounded-md">התוכן</a>
-                <a href="#faq" class="block px-3 py-3 text-base font-medium text-brand-800 hover:bg-brand-100 rounded-md">מידע נוסף</a>
-                <a href="#purchase" class="block px-3 py-3 text-base font-bold text-brand-50 bg-brand-900 rounded-xl mt-2 text-center shadow-md">
-                    הזמן עכשיו
-                </a>
-            </div>
+        <!-- תפריט מובייל נפתח -->
+        <div class="md:hidden hidden bg-[#fcf8f2] border-b border-brand-200 px-4 pt-2 pb-6 space-y-3 shadow-lg" id="mobile-menu">
+            <a href="#about" class="block text-brand-800 hover:text-brand-gold font-semibold py-2 border-b border-brand-100">על הספר</a>
+            <a href="#features" class="block text-brand-800 hover:text-brand-gold font-semibold py-2 border-b border-brand-100">התוכן</a>
+            <a href="#gallery" class="block text-brand-800 hover:text-brand-gold font-semibold py-2 border-b border-brand-100">הצצה לספר</a>
+            <a href="#testimonials" class="block text-brand-800 hover:text-brand-gold font-semibold py-2 border-b border-brand-100">המלצות</a>
+            <a href="#faq" class="block text-brand-800 hover:text-brand-gold font-semibold py-2 border-b border-brand-100">מידע נוסף</a>
+            <a href="#purchase" class="block bg-brand-900 text-white text-center font-bold py-3 rounded-xl shadow-md mt-4">הזמן עכשיו</a>
         </div>
     </header>
 
     <main>
-        <section class="desert-hero min-h-[90vh] flex items-center pt-8 pb-16 lg:py-20">
-            <!-- חלקיקי אבק/אור מרחפים -->
-            <div class="absolute inset-0 z-0 opacity-40 mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'1\' fill=\'%23ffffff\' opacity=\'0.5\'/%3E%3Ccircle cx=\'20\' cy=\'80\' r=\'1.5\' fill=\'%23ffffff\' opacity=\'0.3\'/%3E%3C/svg%3E');"></div>
-            
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center relative z-10 w-full gap-12 lg:gap-8">
-                
-                <!-- טקסט וכפתורים (חלק ימני) -->
-                <div class="w-full md:w-3/5 text-center md:text-right animate-fade-in-up mt-10 md:mt-0">
-                    <div class="inline-flex items-center gap-2 bg-white/60 border border-brand-300 text-brand-900 px-6 py-2.5 rounded-full text-sm sm:text-base font-bold tracking-wide mb-6 backdrop-blur-md shadow-[0_4px_15px_rgba(92,64,24,0.1)] cursor-default">
-                        <i class="fas fa-bullhorn text-brand-500"></i>
-                        <span>בס"ד | בשורה משמחת</span>
-                    </div>
+        <!-- אזור ראשי (Hero Section) בהשראת התמונה המקורית -->
+        <section class="desert-hero py-20 md:py-32 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                     
-                    <h1 class="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-serif font-black leading-[1.1] mb-4 text-glow-white">
-                        <span class="block text-brand-700 text-2xl sm:text-3xl lg:text-4xl mb-2 font-normal tracking-tight">לאור ההצלחה והביקוש הרב לקונטרס</span>
-                        <span class="title-text-brown drop-shadow-md">ברית</span> <br/>
-                        <span class="title-text-brown drop-shadow-md inline-block mt-2">תִּפְאַרְתֶּךָ</span>
-                    </h1>
-                    
-                    <p class="text-xl sm:text-2xl text-brand-900 font-medium mb-8 max-w-2xl mx-auto md:mx-0 leading-relaxed drop-shadow-sm px-2 md:px-0 bg-white/30 md:bg-transparent rounded-xl md:rounded-none py-3 md:py-0 backdrop-blur-sm md:backdrop-blur-none border border-white/40 md:border-transparent">
-                        ליקוט תמציתי ומקיף בסיבות ובטעמי הלכות ומנהגי ברית המילה שנכרתה בנינו לבין בוראינו, המלווה את אבי הבן ביום ברית בנו, בשפה ברורה ושווה לכל נפש.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4 sm:gap-6 mt-4">
-                        <a href="#purchase" class="bg-brand-900 hover:bg-brand-800 text-brand-50 font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-[0_10px_25px_-5px_rgba(92,64,24,0.4)] hover:shadow-[0_15px_35px_-5px_rgba(92,64,24,0.5)] text-lg flex items-center justify-center gap-3 group transform hover:-translate-y-1">
-                            הזמן עכשיו
-                            <i class="fas fa-shopping-cart group-hover:scale-110 transition-transform text-brand-goldLight"></i>
-                        </a>
-                        <a href="#about" class="bg-white/70 hover:bg-white/90 text-brand-900 font-bold py-4 px-8 rounded-2xl transition-all duration-300 border border-brand-300 backdrop-blur-md flex items-center justify-center gap-2 group transform hover:-translate-y-1 shadow-[0_5px_15px_rgba(0,0,0,0.05)]">
-                            פרטים נוספים
-                            <i class="fas fa-chevron-down text-sm opacity-70 group-hover:translate-y-1 transition-transform"></i>
-                        </a>
-                    </div>
-                </div>
+                    <!-- צד ימין: טקסטים ומסר מרכזי -->
+                    <div class="lg:col-span-7 text-center lg:text-right space-y-6">
+                        <div class="inline-block bg-white/80 backdrop-blur-md border border-brand-200 px-5 py-2 rounded-full shadow-sm">
+                            <span class="text-brand-700 font-bold tracking-widest text-sm flex items-center gap-2 justify-center lg:justify-start">
+                                <i class="fas fa-sun text-brand-gold animate-spin-slow"></i>
+                                בס"ד • בשורה משמחת
+                            </span>
+                        </div>
 
-                <div class="w-full md:w-2/5 flex justify-center items-center mt-4 md:mt-0 relative z-20">
-                    <div class="relative w-full max-w-[400px] animate-float group p-2">
-                        
-                        <!-- צללית חמה מתחת לתמונה -->
-                        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-[80%] h-6 bg-brand-900 rounded-[100%] blur-[20px] opacity-40 group-hover:w-[90%] group-hover:opacity-30 transition-all duration-500"></div>
-                        
-                        <!-- התמונה עצמה במקום ההדמיה -->
-                        <img src="פרסום קונטרס (1).jpg" alt="כריכת קונטרס ברית תפארתך והמודעה" class="w-full h-auto rounded-xl shadow-[0_25px_50px_-12px_rgba(64,42,14,0.4)] relative z-10 transform transition-transform duration-700 group-hover:scale-[1.02] border-4 border-white/60">
-                        
-                        <!-- הילת אור אחורית עדינה -->
-                        <div class="absolute inset-0 bg-brand-gold/20 rounded-xl blur-2xl transform -z-10 group-hover:bg-brand-gold/30 transition-colors duration-500 animate-pulse-slow"></div>
-                    </div>
-                </div>
+                        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-black title-text-brown leading-tight drop-shadow-sm">
+                            קונטרס <br>
+                            <span class="text-brand-500 underline decoration-brand-300 decoration-wavy decoration-2">בְּרִית תִּפְאַרְתָּךְ</span>
+                        </h1>
 
+                        <p class="text-xl sm:text-2xl font-bold text-brand-800 max-w-2xl mx-auto lg:mx-0">
+                            לאור ההצלחה והביקוש הרב לקונטרס • המהדורה החדשה (מורחבת ומשופרת)
+                        </p>
+
+                        <p class="text-lg sm:text-xl text-brand-700 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium">
+                            ליקוט תמציתי ומקיף בסיבות ובטעמי הלכות ומנהגי ברית המילה שנכרתה בנינו לבין בוראינו, המלווה את אבי הבן ביום ברית בנו, בשפה ברורה ושווה לכל נפש.
+                        </p>
+
+                        <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <a href="#purchase" class="bg-brand-900 hover:bg-brand-700 text-brand-50 font-bold text-lg px-8 py-4 rounded-2xl shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3 border border-brand-800">
+                                <i class="fas fa-shopping-bag text-brand-gold"></i>
+                                <span>לרכישת הקונטרס</span>
+                            </a>
+                            <a href="tel:0525000285" class="bg-white/90 hover:bg-white text-brand-900 font-bold text-lg px-8 py-4 rounded-2xl shadow-md transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3 border border-brand-300">
+                                <i class="fas fa-phone-alt text-brand-500"></i>
+                                <span dir="ltr">052-5000285</span>
+                            </a>
+                        </div>
+
+                        <div class="pt-6 border-t border-brand-200/60 text-sm font-semibold text-brand-800 flex items-center justify-center lg:justify-start gap-2">
+                            <i class="fas fa-certificate text-brand-gold"></i>
+                            <span>בהמלצתם של הרבנים הראשיים לישראל וגדולי הדור שליט"א</span>
+                        </div>
+                    </div>
+
+                    <!-- צד שמאל: תמונת הקונטרס המקורית עם אפקט ריחוף -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative group">
+                            <!-- הילת אור מאחורי הספר -->
+                            <div class="absolute -inset-4 bg-gradient-to-r from-brand-300 to-brand-gold rounded-[2.5rem] blur-xl opacity-40 group-hover:opacity-70 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+                            
+                            <!-- תמונת הקונטרס -->
+                            <div class="relative bg-white p-3 rounded-[2rem] shadow-2xl border-2 border-brand-300 transform group-hover:scale-[1.02] transition-transform duration-500">
+                                <img src="פרסום קונטרס (1).jpg" alt="קונטרס ברית תפארתך" class="rounded-2xl max-h-[550px] w-auto object-cover shadow-inner" onerror="this.src='https://placehold.co/400x550/faedd4/5c4018?text=ברית+תפארתך';">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </section>
 
-        <div class="bg-brand-900 text-brand-50 py-7 shadow-inner relative z-20 border-t-4 border-brand-500">
-            <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center gap-x-12 gap-y-6 text-center font-bold text-base sm:text-lg">
-                <div class="flex items-center gap-3 drop-shadow-sm hover:-translate-y-1 transition-transform">
-                    <div class="bg-brand-800 rounded-full p-2 border border-brand-700 shadow-inner">
-                        <i class="fas fa-award text-brand-goldLight text-xl"></i>
-                    </div>
-                    בהסכמת הרבנים הראשיים
-                </div>
-                <div class="flex items-center gap-3 drop-shadow-sm hover:-translate-y-1 transition-transform">
-                     <div class="bg-brand-800 rounded-full p-2 border border-brand-700 shadow-inner">
-                        <i class="fas fa-book-medical text-brand-goldLight text-xl"></i>
-                    </div>
-                    מהדורה חדשה ומשופרת
-                </div>
-                <div class="flex items-center gap-3 drop-shadow-sm hover:-translate-y-1 transition-transform">
-                    <div class="bg-brand-800 rounded-full p-2 border border-brand-700 shadow-inner">
-                        <i class="fas fa-comment-dots text-brand-goldLight text-xl"></i>
-                    </div>
-                    בשפה ברורה ושווה לכל נפש
-                </div>
-            </div>
-        </div>
-
-        <section id="about" class="py-24 bg-brand-50 relative overflow-hidden">
-             <!-- דוגמת רקע עדינה של חול/עיטור -->
+        <section id="about" class="py-24 md:py-32 bg-brand-50 relative overflow-hidden">
+             <!-- עיטורי רקע -->
              <div class="absolute top-0 right-0 w-64 h-64 bg-brand-200 rounded-full mix-blend-multiply opacity-30 transform translate-x-1/2 -translate-y-1/2 blur-3xl pointer-events-none"></div>
              <div class="absolute bottom-0 left-0 w-96 h-96 bg-brand-300 rounded-full mix-blend-multiply opacity-20 transform -translate-x-1/2 translate-y-1/2 blur-3xl pointer-events-none"></div>
 
@@ -264,7 +270,7 @@
                 <div class="text-center mb-16">
                     <div class="inline-flex items-center gap-2 text-brand-700 font-bold tracking-widest uppercase text-sm mb-3">
                         <i class="fas fa-star text-xs text-brand-gold"></i>
-                        <span>על המהדורה</span>
+                        <span>על המהדורה החדשה</span>
                         <i class="fas fa-star text-xs text-brand-gold"></i>
                     </div>
                     <h2 class="text-4xl md:text-5xl font-serif font-black text-brand-900">המדריך השלם ליום הגדול</h2>
@@ -295,10 +301,8 @@
             </div>
         </section>
 
-        <section id="features" class="py-24 bg-brand-900 text-brand-50 relative overflow-hidden">
-            <!-- רקע עמוק עם טקסטורת אור -->
+        <section id="features" class="py-24 md:py-32 bg-brand-900 text-brand-50 relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-900 z-0"></div>
-            <div class="absolute top-0 right-0 w-full h-full bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23c09440\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30 z-0"></div>
             
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="text-center mb-16 reveal">
@@ -309,7 +313,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Feature 1 -->
-                    <div class="reveal bg-brand-800/80 backdrop-blur-md border border-brand-700 p-8 rounded-[2rem] hover:-translate-y-3 transition-all duration-500 group shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative overflow-hidden" style="transition-delay: 100ms;">
+                    <div class="reveal bg-brand-800/80 backdrop-blur-md border border-brand-700 p-8 rounded-[2rem] hover:-translate-y-3 transition-all duration-500 group shadow-lg relative overflow-hidden" style="transition-delay: 100ms;">
                         <div class="absolute top-0 right-0 w-2 h-full bg-brand-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         
                         <div class="w-16 h-16 bg-brand-900 border border-brand-700 rounded-2xl flex items-center justify-center text-brand-goldLight text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-500 group-hover:rotate-6 group-hover:bg-brand-500 group-hover:text-white">
@@ -322,7 +326,7 @@
                     </div>
 
                     <!-- Feature 2 -->
-                    <div class="reveal bg-brand-800/80 backdrop-blur-md border border-brand-700 p-8 rounded-[2rem] hover:-translate-y-3 transition-all duration-500 group shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative overflow-hidden" style="transition-delay: 200ms;">
+                    <div class="reveal bg-brand-800/80 backdrop-blur-md border border-brand-700 p-8 rounded-[2rem] hover:-translate-y-3 transition-all duration-500 group shadow-lg relative overflow-hidden" style="transition-delay: 200ms;">
                          <div class="absolute top-0 right-0 w-2 h-full bg-brand-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                         <div class="w-16 h-16 bg-brand-900 border border-brand-700 rounded-2xl flex items-center justify-center text-brand-goldLight text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-500 group-hover:-rotate-6 group-hover:bg-brand-500 group-hover:text-white">
@@ -335,7 +339,7 @@
                     </div>
 
                     <!-- Feature 3 -->
-                    <div class="reveal bg-brand-800/80 backdrop-blur-md border border-brand-700 p-8 rounded-[2rem] hover:-translate-y-3 transition-all duration-500 group shadow-lg hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative overflow-hidden" style="transition-delay: 300ms;">
+                    <div class="reveal bg-brand-800/80 backdrop-blur-md border border-brand-700 p-8 rounded-[2rem] hover:-translate-y-3 transition-all duration-500 group shadow-lg relative overflow-hidden" style="transition-delay: 300ms;">
                          <div class="absolute top-0 right-0 w-2 h-full bg-brand-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                         <div class="w-16 h-16 bg-brand-900 border border-brand-700 rounded-2xl flex items-center justify-center text-brand-goldLight text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-500 group-hover:rotate-6 group-hover:bg-brand-500 group-hover:text-white">
@@ -350,7 +354,107 @@
             </div>
         </section>
 
-        <section id="faq" class="py-24 bg-[#fffaf0] relative border-y border-brand-200">
+        <section id="gallery" class="py-24 md:py-32 bg-brand-50 relative overflow-hidden">
+             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center mb-16 reveal">
+                    <span class="text-brand-700 font-bold tracking-widest uppercase text-sm mb-3 block">הצצה פנימה</span>
+                    <h2 class="text-4xl md:text-5xl font-serif font-black text-brand-900">דפי הקונטרס</h2>
+                    <div class="w-24 h-1.5 bg-brand-500 mx-auto mt-6 rounded-full opacity-80"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+                    <div class="reveal group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 aspect-[4/5] bg-[#faedd4] cursor-pointer border border-brand-300/50 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                        <i class="fas fa-book-open text-6xl text-brand-300 opacity-50 group-hover:scale-110 group-hover:opacity-100 transition-all duration-500"></i>
+                        <div class="absolute bottom-0 left-0 w-full p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
+                            <h4 class="text-white font-bold text-xl mb-1">עיצוב מאיר עיניים</h4>
+                            <p class="text-brand-200 text-sm">הקפדה על טיפוגרפיה נוחה לקריאה.</p>
+                        </div>
+                    </div>
+                    <div class="reveal group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 aspect-[4/5] bg-[#faedd4] cursor-pointer border border-brand-300/50 flex items-center justify-center" style="transition-delay: 150ms;">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                        <i class="fas fa-list-ul text-6xl text-brand-300 opacity-50 group-hover:scale-110 group-hover:opacity-100 transition-all duration-500"></i>
+                        <div class="absolute bottom-0 left-0 w-full p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
+                            <h4 class="text-white font-bold text-xl mb-1">סדר וארגון</h4>
+                            <p class="text-brand-200 text-sm">חלוקה ברורה לנושאים ולשלבים.</p>
+                        </div>
+                    </div>
+                    <div class="reveal group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 aspect-[4/5] bg-[#faedd4] cursor-pointer border border-brand-300/50 sm:col-span-2 lg:col-span-1 flex items-center justify-center" style="transition-delay: 300ms;">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                        <i class="fas fa-bookmark text-6xl text-brand-300 opacity-50 group-hover:scale-110 group-hover:opacity-100 transition-all duration-500"></i>
+                        <div class="absolute bottom-0 left-0 w-full p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
+                            <h4 class="text-white font-bold text-xl mb-1">כריכה מהודרת</h4>
+                            <p class="text-brand-200 text-sm">גימור יוקרתי המכבד את המעמד.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="py-24 md:py-32 bg-white relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center mb-16 reveal">
+                    <span class="text-brand-700 font-bold tracking-widest uppercase text-sm mb-3 block">ביקורות</span>
+                    <h2 class="text-4xl md:text-5xl font-serif font-black text-brand-900">מה אומרים הקוראים?</h2>
+                    <div class="w-24 h-1.5 bg-brand-300 mx-auto mt-6 rounded-full opacity-80"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="reveal bg-brand-50 border border-brand-100 rounded-[2rem] p-8 shadow-sm hover:shadow-xl transition-all duration-300 relative group transform hover:-translate-y-2">
+                        <i class="fas fa-quote-right text-5xl text-brand-200 absolute top-6 right-6 opacity-40 group-hover:scale-110 transition-transform duration-300"></i>
+                        <div class="flex text-brand-gold mb-6 text-sm gap-1">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-brand-800 leading-relaxed font-medium mb-8 relative z-10 text-lg">
+                            "הספר עזר לי מאוד להתכונן ליום המרגש. הכל מוסבר בצורה ברורה, מאירת עיניים, ונותן תחושת רוגע ובטחון לקראת המאורע הגדול. ממליץ בחום לכל אב."
+                        </p>
+                        <div class="flex items-center gap-4 border-t border-brand-200 pt-6">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white font-bold text-xl shadow-inner">א'</div>
+                            <div>
+                                <div class="font-bold text-brand-900 text-lg">אברהם י.</div>
+                                <div class="text-sm text-brand-600">רוכש המהדורה החדשה</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="reveal bg-brand-50 border border-brand-100 rounded-[2rem] p-8 shadow-sm hover:shadow-xl transition-all duration-300 relative group transform hover:-translate-y-2" style="transition-delay: 150ms;">
+                        <i class="fas fa-quote-right text-5xl text-brand-200 absolute top-6 right-6 opacity-40 group-hover:scale-110 transition-transform duration-300"></i>
+                        <div class="flex text-brand-gold mb-6 text-sm gap-1">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-brand-800 leading-relaxed font-medium mb-8 relative z-10 text-lg">
+                            "מתנה מושלמת. העיצוב יפהפה והתוכן פשוט מרתק ומונגש בצורה נפלאה. זה הפך את כל החוויה למשמעותית ועמוקה הרבה יותר עבור כל המשפחה."
+                        </p>
+                        <div class="flex items-center gap-4 border-t border-brand-200 pt-6">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white font-bold text-xl shadow-inner">מ'</div>
+                            <div>
+                                <div class="font-bold text-brand-900 text-lg">משה כ.</div>
+                                <div class="text-sm text-brand-600">קיבל כמתנה</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal bg-brand-50 border border-brand-100 rounded-[2rem] p-8 shadow-sm hover:shadow-xl transition-all duration-300 relative group transform hover:-translate-y-2 md:col-span-2 lg:col-span-1" style="transition-delay: 300ms;">
+                        <i class="fas fa-quote-right text-5xl text-brand-200 absolute top-6 right-6 opacity-40 group-hover:scale-110 transition-transform duration-300"></i>
+                        <div class="flex text-brand-gold mb-6 text-sm gap-1">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-brand-800 leading-relaxed font-medium mb-8 relative z-10 text-lg">
+                            "חיפשתי הרבה זמן מדריך כזה שמרכז את הכל בצורה תמציתית אבל מקיפה. המהדורה החדשה עולה על כל הציפיות. חובה בכל בית."
+                        </p>
+                        <div class="flex items-center gap-4 border-t border-brand-200 pt-6">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white font-bold text-xl shadow-inner">ד'</div>
+                            <div>
+                                <div class="font-bold text-brand-900 text-lg">דוד ס.</div>
+                                <div class="text-sm text-brand-600">רוכש הקונטרס</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="py-24 md:py-32 bg-[#fffaf0] relative border-y border-brand-200">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
                 <div class="text-center mb-16">
                     <h2 class="text-4xl md:text-5xl font-serif font-black text-brand-900">שאלות נפוצות</h2>
@@ -381,19 +485,12 @@
             </div>
         </section>
 
-        <section id="purchase" class="py-24 bg-white relative overflow-hidden">
-             <!-- רקע חם לכרטיס הרכישה -->
-             <div class="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(240,213,163,0.3))]"></div>
-            
+        <section id="purchase" class="py-24 md:py-32 bg-white relative overflow-hidden">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 reveal relative z-10">
-                
                 <div class="bg-gradient-to-br from-brand-900 to-brand-800 rounded-[3rem] p-8 md:p-14 shadow-2xl relative overflow-hidden group border-2 border-brand-700">
-                    <!-- עיטורי רקע בתוך כרטיס הרכישה -->
                     <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-300 via-brand-100 to-brand-300"></div>
-                    <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-brand-500 rounded-full mix-blend-screen opacity-10 blur-3xl pointer-events-none"></div>
                     
                     <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
-                        
                         <div class="text-center md:text-right flex-1 w-full text-white">
                             <h2 class="text-4xl md:text-5xl font-serif font-black text-white mb-4 drop-shadow-md">
                                 לרכישת הקונטרס
@@ -418,16 +515,13 @@
                                 <span>חייגו כעת</span>
                             </a>
                             
-                            <!-- כפתור וואטסאפ מובלט -->
                             <a href="https://wa.me/972525000285?text=שלום,%20אשמח%20לפרטים%20על%20רכישת%20קונטרס%20ברית%20תפארתך" target="_blank" rel="noopener noreferrer" class="w-full bg-[#25D366] hover:bg-[#1fa14f] text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg text-xl flex justify-center items-center gap-3 transform hover:-translate-y-1">
                                 <i class="fab fa-whatsapp text-2xl"></i>
                                 <span>הודעת וואטסאפ</span>
                             </a>
                         </div>
-                        
                     </div>
                 </div>
-                
             </div>
         </section>
     </main>
@@ -435,7 +529,6 @@
     <footer class="bg-[#1a1105] text-brand-200 py-12 border-t border-brand-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                
                 <div class="flex items-center gap-4 group cursor-pointer" onclick="window.scrollTo(0,0)">
                     <div class="w-12 h-12 bg-brand-900 border border-brand-700 rounded-full flex items-center justify-center text-brand-300 text-xl shadow-inner group-hover:bg-brand-800 transition-colors">
                         <i class="fas fa-book-open"></i>
@@ -449,6 +542,8 @@
                 <div class="flex gap-6 text-sm">
                     <a href="#about" class="hover:text-white transition-colors">על הספר</a>
                     <a href="#features" class="hover:text-white transition-colors">התוכן</a>
+                    <a href="#gallery" class="hover:text-white transition-colors hidden sm:block">הצצה לספר</a>
+                    <a href="#testimonials" class="hover:text-white transition-colors hidden sm:block">המלצות</a>
                     <a href="#faq" class="hover:text-white transition-colors">מידע נוסף</a>
                 </div>
 
@@ -490,21 +585,25 @@
             });
         });
 
-        // שינוי עיצוב ה-Header בעת גלילה
+        // שינוי עיצוב ה-Header בעת גלילה ופס התקדמות קריאה
         const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        const scrollProgress = document.getElementById('scroll-progress');
         
         window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            if(scrollProgress) {
+                scrollProgress.style.width = scrollPercentage + '%';
+            }
+
             const header = document.getElementById('header');
             if (window.scrollY > 10) {
                 header.classList.add('shadow-md');
                 header.classList.replace('bg-[#fcf8f2]/95', 'bg-[#fcf8f2]/98');
-                header.classList.remove('py-3', 'lg:py-4');
-                header.classList.add('py-2', 'lg:py-3');
             } else {
                 header.classList.remove('shadow-md');
                 header.classList.replace('bg-[#fcf8f2]/98', 'bg-[#fcf8f2]/95');
-                header.classList.remove('py-2', 'lg:py-3');
-                header.classList.add('py-3', 'lg:py-4');
             }
             
             if (window.scrollY > 500) {
